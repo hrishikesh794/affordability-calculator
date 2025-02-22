@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car/Bike Affordability Calculator</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #fff;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: slideIn 1s ease-in-out;
+        }
+        h2 {
+            color: #fff;
+        }
+        p {
+            font-size: 16px;
+            color: #f1f1f1;
+        }
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
+        button {
+            padding: 12px;
+            background: #ff4e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #e42a2a;
+        }
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffeb3b;
+            margin-top: 15px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Car/Bike Affordability Calculator</h2>
+        <p>The <strong>20-4-10 rule</strong> is a simple financial guideline for making large purchases, particularly when financing a car or bike. It helps ensure responsible spending while preventing financial strain. The rule states:</p>
+        <ul>
+            <li><strong>20% Down Payment</strong> – Pay at least 20% of the purchase price upfront to reduce loan amounts and interest costs.</li>
+            <li><strong>4-Year Loan Term</strong> – Finance the purchase with a loan no longer than 4 years to avoid excessive interest payments and long-term debt.</li>
+            <li><strong>10% of Monthly Income</strong> – Keep total transportation costs (loan payment, insurance, maintenance, etc.) below 10% of your monthly gross income to maintain financial stability.</li>
+        </ul>
+        <p>This rule is widely applied in car buying but can also help assess other financed purchases. It ensures you’re not overextending financially, keeping flexibility for other expenses.</p>
+        
+        <label>Car/Bike Price (₹):</label>
+        <input type="number" id="price" placeholder="Enter vehicle price">
+        
+        <label>Loan Interest Rate (%):</label>
+        <input type="number" id="interest" placeholder="Enter interest rate">
+        
+        <button onclick="calculateIncome()">Calculate</button>
+        
+        <h3 id="result"></h3>
+    </div>
+
+    <script>
+        function calculateIncome() {
+            let price = parseFloat(document.getElementById('price').value);
+            let interestRate = parseFloat(document.getElementById('interest').value) / 100;
+            
+            if (isNaN(price) || isNaN(interestRate) || price <= 0 || interestRate <= 0) {
+                document.getElementById('result').innerText = "Please enter valid values";
+                return;
+            }
+            
+            let downPayment = 0.2 * price;
+            let loanAmount = 0.8 * price;
+            let monthlyInterestRate = interestRate / 12;
+            let months = 48; // 4 years * 12 months
+            
+            let emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, months)) / (Math.pow(1 + monthlyInterestRate, months) - 1);
+            let requiredIncome = emi * 10; // Since EMI should be at most 10% of income
+            
+            document.getElementById('result').innerHTML = `Required Monthly Income: ₹${requiredIncome.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
